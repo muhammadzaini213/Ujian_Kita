@@ -6,8 +6,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -18,7 +18,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
@@ -26,7 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.muhammadzaini.ujiankita.R;
-import com.muhammadzaini.ujiankita.backup.AppChecker;
+import com.muhammadzaini.ujiankita.AppChecker;
 import com.muhammadzaini.ujiankita.main.MainActivity;
 
 import java.text.SimpleDateFormat;
@@ -47,31 +46,22 @@ public class BrowserActivity extends AppCompatActivity {
 
     SharedPreferences sp;
 
-    private int tickCounter = 0;
-    private final long tickInterval = 60000; // 1 second
-    private final Handler handler = new Handler();
-
-    private final Runnable tickRunnable = new Runnable() {
-        @Override
-        public void run() {
-            tickCounter++;
-            handler.postDelayed(this, tickInterval);
-        }
-    };
-    private static final String BACKUP_FILE_NAME = ".backups12.sws";
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
         mWebview = findViewById(R.id.exam_webview);
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            this.getWindow().setHideOverlayWindows(true);
+        }
+
+
         AppChecker.openApplications(this, BrowserData.appList);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-//        handler.post(tickRunnable);
 
         counter = new Counter();
         random = new Random();
@@ -110,8 +100,8 @@ public class BrowserActivity extends AppCompatActivity {
                     .setMessage("Anda tidak akan bisa memasuki tes ini lagi.")
                     .setPositiveButton("Ya", (dialog, which) -> {
                         stopLockTask();
+                        disableDND();
                         finish();
-//                            BackupUtils.backupSharedPreferencesToDownloads(this, BACKUP_FILE_NAME);
 
                         startActivity(new Intent(this, MainActivity.class));
                     })
@@ -156,7 +146,6 @@ public class BrowserActivity extends AppCompatActivity {
 
         webSettings.setAllowContentAccess(true);
         webSettings.setDisplayZoomControls(false);
-//        webSettings.setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 16_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/99.0.4844.59 Mobile/15E148 SEB/3.3.2");
         webSettings.setBuiltInZoomControls(true);
         webSettings.setAllowContentAccess(true);
         mWebview.setKeepScreenOn(true);

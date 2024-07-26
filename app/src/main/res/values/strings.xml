@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">Ujian Kita</string>
 
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="id_empty">ID Sekolah kosong!</string>
+    <string name="username_empty">Username kosong!</string>
+    <string name="password_empty">Password kosong!</string>
+
+    <string name="id_not_found">ID Sekolah tidak ditemukan</string>
+    <string name="database_not_found">Database tidak ditemukan</string>
+    <string name="database_load_fail">Gagal mengunduh data</string>
+
+    <string name="credential_issue">Kredensial pengguna tidak lengkap dalam database</string>
+    <string name="login_fail"></string>
+    <string name="login_error"></string>
+
+    <string name="log_in_btn">LOG IN</string>
 </resources>

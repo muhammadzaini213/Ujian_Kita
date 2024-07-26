@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,14 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.muhammadzaini.ujiankita.CsvDownloader;
 import com.muhammadzaini.ujiankita.R;
-import com.muhammadzaini.ujiankita.backup.AppChecker;
+import com.muhammadzaini.ujiankita.AppChecker;
 import com.muhammadzaini.ujiankita.browser.BrowserData;
 import com.muhammadzaini.ujiankita.login.LoginActivity;
 import com.muhammadzaini.ujiankita.login.URLHelper;
 import com.muhammadzaini.ujiankita.login.UserData;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import com.squareup.picasso.BuildConfig;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

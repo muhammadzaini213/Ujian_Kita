@@ -12,4 +12,8 @@
     <color name="redcolor">#FF0D44</color>
     <color name="iconColorBackground">#DCDCDC</color>
     <color name="blue">#06B1C5</color>
+
+    <color name="light_blue">#4C93B3</color>
+    <color name="dark_blue">#437192</color>
+    <color name="orange">#FF9A03</color>
 </resources>

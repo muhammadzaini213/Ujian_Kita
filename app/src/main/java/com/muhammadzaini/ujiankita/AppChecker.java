@@ -1,4 +1,4 @@
-package com.muhammadzaini.ujiankita.backup;
+package com.muhammadzaini.ujiankita;
 
 import android.app.Activity;
 import android.content.Intent;
