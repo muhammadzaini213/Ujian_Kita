@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858932764687",
+    "project_id": "ujian-kita-b05f9",
+    "storage_bucket": "ujian-kita-b05f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858932764687:android:276609c3e8f82f0383c37a",
+        "android_client_info": {
+          "package_name": "com.muhammadzaini.ujiankita"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmn2ffCeY4KwZG2vFzt8cfZzhQwM_P3sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
