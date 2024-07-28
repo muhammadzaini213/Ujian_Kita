@@ -18,4 +18,7 @@ Tekan 'Masuk' pada ujian yang ingin diikuti, aplikasi akan meminta murid untuk m
 ## Ujian
 Ada tombol hitam di sebelah kiri yang dapat dibuka agar guru bisa mengecek berapa kali murid melanggar tes, serta memberitahu apakah ponsel menggunakan kunci layar atau tidak.
  Logo gembok dapat diketuk untuk mengunci aplikasi jikalau murid tidak mengunci layarnya.
- 
+
+## Keluar
+Di box yang dapat dibuka di bagian kiri layar terdapat tombol merah yang dapat digunakan untuk keluar dari aplikasi, cukup mengonfirmasi dan murid akan keluar dari ujian
+
