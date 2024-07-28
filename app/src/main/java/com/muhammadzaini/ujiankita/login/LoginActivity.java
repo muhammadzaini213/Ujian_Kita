@@ -23,27 +23,25 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String school_id, username, password;
     SharedPreferences.Editor editor;
-    Button login_btn;
 
     EditText school_id_input, username_input, password_input;
     String userDatabase, testDatabase, schoolDatabase;
+    String school_id, username, password;
 
-    SharedPreferences sp;
+    Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_login);
 
+        //Initialize Firebase and SharedPreferences to get excel URL and get saved inputs
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        sp = getSharedPreferences("UJIAN_KITA", Activity.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("UJIAN_KITA", Activity.MODE_PRIVATE);
         editor = sp.edit();
 
         school_id_input = findViewById(R.id.school_id_input);
@@ -51,14 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         password_input = findViewById(R.id.password_input);
         login_btn = findViewById(R.id.login_button);
 
-        restoreData();
-
-
         login_btn.setOnClickListener(view -> {
+            //Get inputs
             school_id = school_id_input.getText().toString();
             username = username_input.getText().toString();
             password = password_input.getText().toString();
 
+            //check if inputs is empty
             if (school_id.isEmpty()) {
                 Toast.makeText(this, getString(R.string.id_empty), Toast.LENGTH_LONG).show();
                 return;
@@ -70,47 +67,47 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
+            //Deactivate login btn so user didn't accidentally spam it
             login_btn.setText(getString(R.string.loading));
             login_btn.setEnabled(false);
 
-            DocumentReference schoolDocRef = db.collection("school_id").document(school_id);
 
+            //Searching database using provided school ID
+            DocumentReference schoolDocRef = db.collection("school_id").document(school_id);
             schoolDocRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
+                        //If document exits, get excel urls
                         userDatabase = document.getString("user_data");
                         testDatabase = document.getString("test_data");
                         schoolDatabase = document.getString("school_data");
 
-                        login(userDatabase, username);
-
+                        login(userDatabase, username); // login
                     } else {
-                        Toast.makeText(this, getString(R.string.id_not_found), Toast.LENGTH_LONG).show();
-                        login_btn.setText(getString(R.string.log_in_btn));
-                        login_btn.setEnabled(true);
+                        setMessage(getString(R.string.id_not_found), Toast.LENGTH_LONG);
                     }
                 } else {
-                    Toast.makeText(this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
-                    login_btn.setText(getString(R.string.log_in_btn));
-                    login_btn.setEnabled(true);
+                    setMessage(getString(R.string.login_fail), Toast.LENGTH_SHORT);
                 }
-            }).addOnFailureListener(e -> {
-                Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_LONG).show();
-                login_btn.setText(getString(R.string.log_in_btn));
-                login_btn.setEnabled(true);
-            });
+            }).addOnFailureListener(e -> setMessage(getString(R.string.login_error), Toast.LENGTH_LONG));
         });
 
+        restoreData(sp);
     }
 
-    private void restoreData() {
+
+    // Restore input data so user didn't need to login again
+    private void restoreData(SharedPreferences sp) {
+        // This code is used to preventing database overload
+        // Would change this later after get a real database for server
         String saved_school_id = sp.getString("SCHOOL_ID", "");
         String saved_username = sp.getString("USERNAME", "");
         String saved_password = sp.getString("PASSWORD", "");
 
         if (!saved_school_id.isEmpty() || !saved_username.isEmpty() || !saved_password.isEmpty()) {
+            // Getting all data from SharedPreferences
             school_id_input.setText(saved_school_id);
             username_input.setText(saved_username);
             password_input.setText(saved_password);
@@ -126,38 +123,38 @@ public class LoginActivity extends AppCompatActivity {
             URLHelper.user_database = sp.getString("USER_DATABASE", "");
             URLHelper.test_database = sp.getString("TEST_DATABASE", "");
             URLHelper.school_database = sp.getString("SCHOOL_DATABASE", "");
+
+            // Start MainActivity after sets all data
             startActivity(new Intent(this, MainActivity.class));
         }
     }
 
-
-    public String buildCsvUrl(String spreadsheetId, String username) {
-        return "https://spreadsheet.google.com/tq?tqx=out:csv&key=" + spreadsheetId +
-                "&gid=0&tq=select%20*%20where%20B='" + username + "'";
-    }
-
     private void login(String database, String username) {
-        String spreadsheetId = extractSpreadsheetId(database);
+        // Extract Spreadsheet ID
+        String spreadsheetId = LoginActivityCsvBuilder.extractSpreadsheetId(database);
+
+        // Check if database found or not
         if (spreadsheetId == null) {
-            Toast.makeText(this, getString(R.string.database_not_found), Toast.LENGTH_LONG).show();
-            resetLoginBtnState();
+            setMessage(getString(R.string.database_not_found), Toast.LENGTH_LONG);
             return;
         }
 
-        String csvUrl = buildCsvUrl(spreadsheetId, username);
+        // Build CSV Url
+        String csvUrl = LoginActivityCsvBuilder.buildCsvUrl(spreadsheetId, username);
         File destinationFile = new File(getFilesDir(), "data.csv");
 
+        // Download Csv using csv donwloader
         CsvDownloader csvDownloader = new CsvDownloader();
         csvDownloader.downloadFile(csvUrl, destinationFile, new CsvDownloader.DownloadCallback() {
             @Override
             public void onSuccess() {
+                // Read Csv File
                 readCsv(destinationFile);
             }
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(LoginActivity.this, getString(R.string.database_load_fail), Toast.LENGTH_LONG).show();
-                resetLoginBtnState();
+                setMessage(getString(R.string.database_load_fail), Toast.LENGTH_LONG);
             }
         });
     }
@@ -167,8 +164,7 @@ public class LoginActivity extends AppCompatActivity {
             try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
                 List<String[]> allRows = reader.readAll();
                 if (allRows.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
-                    resetLoginBtnState();
+                    setMessage(getString(R.string.error), Toast.LENGTH_LONG);
                 } else {
 
                     for (String[] row : allRows) {
@@ -201,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                             UserData.grade = gradeData;
                             UserData.status = statusData;
 
-                            editor.putString("SCHOOL_ID", school_id).apply();
+                            editor.putString("SCHOOL_ID", school_id);
                             editor.putString("USERNAME", usernameData).apply();
                             editor.putString("NAME", nameData).apply();
                             editor.putString("PASSWORD", passwordData).apply();
@@ -211,12 +207,11 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("TEST_DATABASE", testDatabase).apply();
                             editor.putString("SCHOOL_DATABASE", schoolDatabase).apply();
 
-                            Toast.makeText(LoginActivity.this, "Login Berhasil!", Toast.LENGTH_SHORT).show();
+                            setMessage(getString(R.string.login_success), Toast.LENGTH_SHORT);
                             startActivity(new Intent(this, MainActivity.class));
-                            resetLoginBtnState();
                             break;
                         } else {
-                            resetLoginBtnState();
+                            setMessage(getString(R.string.login_fail), Toast.LENGTH_LONG);
                         }
                     }
                 }
@@ -227,16 +222,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public String extractSpreadsheetId(String url) {
-        Pattern pattern = Pattern.compile("/spreadsheets/d/([a-zA-Z0-9-_]+)");
-        Matcher matcher = pattern.matcher(url);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return null;
-    }
-
-    private void resetLoginBtnState() {
+    private void setMessage(String message, int timeLength) {
+        Toast.makeText(this, message, timeLength).show();
         login_btn.setText(getString(R.string.log_in_btn));
         login_btn.setEnabled(true);
     }

@@ -12,8 +12,9 @@
     <string name="database_load_fail">Gagal mengunduh data</string>
 
     <string name="credential_issue">Kredensial pengguna tidak lengkap dalam database</string>
-    <string name="login_fail"></string>
-    <string name="login_error"></string>
+    <string name="login_success">Login berhasil!</string>
+    <string name="login_fail">Login gagal</string>
+    <string name="login_error">Login gagal atau jaringan kurang stabil</string>
 
     <string name="log_in_btn">LOG IN</string>
 </resources>
