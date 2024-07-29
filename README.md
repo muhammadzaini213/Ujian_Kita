@@ -24,3 +24,5 @@ Ada tombol hitam di sebelah kiri yang dapat dibuka agar guru bisa mengecek berap
 ## Keluar
 Di box yang dapat dibuka di bagian kiri layar terdapat tombol merah yang dapat digunakan untuk keluar dari aplikasi, cukup mengonfirmasi dan murid akan keluar dari ujian
 
+Untuk aplikasi exam client "Ujian Kita" dapat diunduh melalui [link ini](https://github.com/muhammadzaini213/Admin-Ujian-Kita)
+
