@@ -9,7 +9,7 @@ murid keluar dan pelanggaran yang dilakukannya.
 ## Instalasi
 Anda hanya perlu mengunduh aplikasi maupun melakukan compile pada aplikasi ini menggunakan android studio. Lalu install di perangkat android milik murid, perlu diingat aplikasi ini hanya untuk android dan bukan untuk IOS/IPHONE.
 
-[Link aplikasi](https://www.mediafire.com/file/yfckj07n63trd33/ujian_kita.apk/file)
+[Link aplikasi](https://drive.google.com/file/d/1GgJinPvteD9h_t7tDqtoOMS74DVwQUJp/view?usp=drivesdk)
 
 ## Login
 Murid hanya perlu memasukkan Id sekolah, Username, dan Password pada kolom yang sudah disiapkan.
