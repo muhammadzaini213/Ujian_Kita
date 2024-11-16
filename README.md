@@ -9,7 +9,7 @@ murid keluar dan pelanggaran yang dilakukannya.
 ## Instalasi
 Anda hanya perlu mengunduh aplikasi maupun melakukan compile pada aplikasi ini menggunakan android studio. Lalu install di perangkat android milik murid, perlu diingat aplikasi ini hanya untuk android dan bukan untuk IOS/IPHONE.
 
-[Link aplikasi](https://drive.google.com/file/d/1wWhdi5LU_gveJ2IMAcfra6KbhBzcaJcz/view?usp=sharing)
+[Link aplikasi](https://drive.google.com/file/d/15rVIozegn1iefLBJdwiaJyJ5FxWV0goZ/view?usp=sharing)
 
 ## Login
 Murid hanya perlu memasukkan Id sekolah, Username, dan Password pada kolom yang sudah disiapkan.
