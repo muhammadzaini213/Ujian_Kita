@@ -1,6 +1,5 @@
 package com.muhammadzaini.ujiankita;
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
 
 public class TimeCheckTask {
 
@@ -30,14 +28,14 @@ public class TimeCheckTask {
             // Debugging: Print the entire response
             System.out.println("API Response: " + response.toString());
 
-            // Extract and debug datetime string
+            // Extract datetime string
             String responseString = response.toString();
             int startIndex = responseString.indexOf("\"datetime\":\"") + 12;
             int endIndex = responseString.indexOf("\"", startIndex);
             String dateTimeString = responseString.substring(startIndex, endIndex);
             System.out.println("Extracted datetime: " + dateTimeString);
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX", Locale.getDefault());
             format.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date networkTime = format.parse(dateTimeString);
 
@@ -52,7 +50,8 @@ public class TimeCheckTask {
             System.out.println("Current time: " + new Date(currentTimeMillis));
             System.out.println("Network time: " + new Date(networkTimeMillis));
 
-            return Math.abs(currentTimeMillis - networkTimeMillis) < 5 * 60 * 1000; // 5 minutes tolerance
+            // 5-minute tolerance in milliseconds
+            return Math.abs(currentTimeMillis - networkTimeMillis) < 5 * 60 * 1000;
 
         } catch (Exception e) {
             e.printStackTrace();

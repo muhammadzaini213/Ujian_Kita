@@ -1,5 +1,7 @@
 package com.muhammadzaini.ujiankita;
 
+import androidx.annotation.NonNull;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,7 +34,7 @@ public class CsvDownloader {
             }
 
             @Override
-            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+            public void onResponse(@NonNull okhttp3.Call call, @NonNull Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     if (callback != null) {
                         callback.onFailure(new IOException("Unexpected code " + response));

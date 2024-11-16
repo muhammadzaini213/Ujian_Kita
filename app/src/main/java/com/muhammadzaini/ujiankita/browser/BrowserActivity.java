@@ -60,7 +60,7 @@ public class BrowserActivity extends AppCompatActivity {
 
         AppChecker.openApplications(this, BrowserData.appList);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
 
         counter = new Counter();

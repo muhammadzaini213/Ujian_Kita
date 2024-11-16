@@ -121,14 +121,14 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.WebExa
                 builder.setNegativeButton("KEMBALI", (dialog, which) -> dialog.cancel());
 
                 builder.setOnCancelListener(dialogInterface -> {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+//                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 });
 
                 builder.setOnDismissListener(dialogInterface -> {
-                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+//                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 });
 
-                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
                 builder.show();
 
@@ -189,7 +189,7 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.WebExa
             android.os.Handler handler = new Handler(Looper.getMainLooper());
 
             executorService.submit(() -> {
-                boolean isValid = TimeCheckTask.checkTimeSync();
+                boolean isValid = TimeSettingsUtil.isAutoDateTimeEnabled(activity);
                 handler.post(() -> {
                     if (isValid) {
                         Calendar calendar = Calendar.getInstance();
